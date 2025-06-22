@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Masker</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      @import url("https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Satoshi", sans-serif;
+      }
+
+      body {
+        background: url(https://wallpaperaccess.com/full/1619056.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100vh;
+        text-align: center;
+      }
+
+      .masker {
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5));
+        backdrop-filter: blur(3px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .masker h1 {
+        color: white;
+        margin-bottom: 10px;
+      }
+
+      .masker span {
+        color: rgb(200, 200, 200);
+        padding-bottom: 15px;
+      }
+
+      .form input {
+        padding: 12px 16px;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        background-image: linear-gradient(#111, #111),
+          linear-gradient(90deg, #001f85, #7873f5);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+        color: #fff;
+        font-size: 16px;
+        width: 250px;
+        margin-right: 5px;
+        outline: none;
+      }
+
+      .form button {
+        cursor: pointer;
+        padding: 12px 16px;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        background-image: linear-gradient(90deg, #001f85, #7873f5),
+          linear-gradient(90deg, #001f85, #7873f5);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+        color: #fff;
+        font-size: 16px;
+        width: 100px;
+        outline: none;
+      }
+
+      .pop-up {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .pop-up.active {
+        display: flex;
+      }
+
+      .copy {
+        background-color: #111;
+        width: 300px;
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .copy .btn {
+        display: flex;
+        gap: 10px;
+      }
+
+      .copy .btn button {
+        padding: 10px 14px;
+        background: #222;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="masker">
+      <h1>Email Masker - Hide & Protect Emails Instantly</h1>
+      <span
+        >A lightweight tool to obfuscate email addresses for privacy and spam
+        protection.</span
+      >
+      <div class="form">
+        <input type="email" placeholder="Your Email" id="email" required />
+        <button id="masker">Mask</button>
+      </div>
+    </div>
+
+    <div class="pop-up" id="popup">
+      <div class="copy">
+        <h3>Your Mail-ID</h3>
+        <div class="btn">
+          <button id="maskedMailId">your@email.com</button>
+          <button id="copyBtn"><i class="fas fa-link"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const emailInput = document.getElementById("email");
+      const maskerBtn = document.getElementById("masker");
+      const popup = document.getElementById("popup");
+      const maskedMailId = document.getElementById("maskedMailId");
+      const copyBtn = document.getElementById("copyBtn");
+
+      maskerBtn.addEventListener("click", () => {
+        const email = emailInput.value.trim();
+        if (!email.includes("@") || email.length < 5) {
+          alert("Please enter a valid email.");
+          return;
+        }
+
+        const findSymbol = email.indexOf("@");
+        const userName = email.slice(0, findSymbol);
+        const domain = email.slice(findSymbol);
+
+        const masked =
+          userName[0] +
+          "*".repeat(Math.max(userName.length - 2, 1)) +
+          userName[userName.length - 1] +
+          domain;
+
+        maskedMailId.textContent = masked;
+        popup.classList.add("active");
+        emailInput.value = "";
+      });
+
+      copyBtn.addEventListener("click", () => {
+        const text = maskedMailId.textContent;
+        navigator.clipboard.writeText(text).then(
+          () => {
+            alert("Copied to clipboard!");
+            setTimeout(() => popup.classList.remove("active"), 100);
+          },
+          () => alert("Failed to copy.")
+        );
+      });
+
+      maskedMailId.addEventListener("click", () => {
+        const text = maskedMailId.textContent;
+        navigator.clipboard.writeText(text).then(
+          () => {
+            alert("Copied to clipboard!");
+            setTimeout(() => popup.classList.remove("active"), 100);
+          },
+          () => alert("Failed to copy.")
+        );
+      });
+
+    </script>
+  </body>
+</html>
