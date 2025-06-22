@@ -2,7 +2,7 @@
 
 **Mail‑Masker** is a simple browser extension for generating disposable, masked email addresses to protect your privacy, clean up your inbox, and stop spam at the source.
 
-👉 [Live Demo](https://thiyo-de.github.io/Shopping-Cart/)
+👉 [Live Demo]("https://thiyo-de.github.io/Mail-Masker/")
 
 ![Mail-Masker Screenshot](./assets/screenshot.png)
 
